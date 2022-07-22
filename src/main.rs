@@ -1,14 +1,23 @@
+use std::time::Instant;
+
 use k_nn::KNN;
 use k_nn::Instance;
+use rand::Rng;
 pub mod k_nn;
 
 fn main() {
     let mut test = KNN::new(3);
-    let data: Vec<Instance> = vec![
-                                    Instance::new(vec![1.5, 2.0], 1),
-                                    Instance::new(vec![3.0, 5.0], 2),
-                                    Instance::new(vec![1.3, 1.89], 1)
-                                ];
+    let mut data: Vec<Instance> = Vec::new();
+
+    let mut rng = rand::thread_rng();
+
+    for _i in 0..100000 {
+        data.push(Instance::new(vec![rng.gen(), rng.gen()], rng.gen()))
+    }
     test.set_data(data);
-    println!("{}", test.classify(&vec![1.2, 1.78]));
+
+    // Benchmark
+    let now = Instant::now();
+    test.classify(&vec![1.2, 1.78]);
+    println!("Classified in {} milliseconds", now.elapsed().as_millis());
 }
