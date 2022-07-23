@@ -13,6 +13,12 @@ impl Instance {
     }
 }
 
+impl std::fmt::Display for Instance {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "Points: {:?}, Lable: {}", self.points, self.label)
+    }
+}
+
 pub struct KNN {
     k: i32,
     data: Vec<Instance>,
@@ -55,6 +61,24 @@ impl KNN {
         }
 
         distances.sort_by(|a,b| a.1.partial_cmp(&b.1).unwrap());
+        return distances
+    }
+
+    pub fn calculate_distances_threaded(&self, c: &Vec<f64>, threads: usize) -> Vec::<(i32, f64)> {
+        let mut distances = Vec::new();
+
+        let step = self.data.len() / threads;
+
+        for i in 0..threads {
+            let temp = &self.data[step * i .. step * (i + 1)];
+            
+            for i in 0..temp.len() {
+                println!("{}", temp[i])
+            }
+
+            println!()
+        }
+
         return distances
     }
 

@@ -11,13 +11,15 @@ fn main() {
 
     let mut rng = rand::thread_rng();
 
-    for _i in 0..100000 {
+    for _i in 0..10 {
         data.push(Instance::new(vec![rng.gen(), rng.gen()], rng.gen()))
     }
     test.set_data(data);
 
+    test.calculate_distances_threaded(&vec![rng.gen(), rng.gen()], 5);
+
     // Benchmark
     let now = Instant::now();
-    test.classify(&vec![1.2, 1.78]);
+    test.classify(&vec![rng.gen(), rng.gen()]);
     println!("Classified in {} milliseconds", now.elapsed().as_millis());
 }
