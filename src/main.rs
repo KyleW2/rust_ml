@@ -11,15 +11,20 @@ fn main() {
 
     let mut rng = rand::thread_rng();
 
-    for _i in 0..10 {
+    for _i in 0..100000 {
         data.push(Instance::new(vec![rng.gen(), rng.gen()], rng.gen()))
     }
     test.set_data(data);
 
     test.calculate_distances_threaded(&vec![rng.gen(), rng.gen()], 5);
 
-    // Benchmark
+    // Benchmark single thread
     let now = Instant::now();
-    test.classify(&vec![rng.gen(), rng.gen()]);
-    println!("Classified in {} milliseconds", now.elapsed().as_millis());
+    test.classify(&vec![rng.gen(), rng.gen()], 1);
+    println!("Single thread classified in {} milliseconds", now.elapsed().as_millis());
+
+    // Benchmark multi thread
+    let now = Instant::now();
+    test.classify(&vec![rng.gen(), rng.gen()], 2);
+    println!("Two threads classified in {} milliseconds", now.elapsed().as_millis());
 }
