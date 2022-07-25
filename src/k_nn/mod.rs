@@ -49,7 +49,7 @@ impl KNN {
     fn euclidean_distance(x: &Vec<f64>, y: &Vec<f64>) -> f64{
         // Ensure vector length the same
         if x.len() != y.len() {
-            return 0.0
+            panic!("Vector lengths must be the same, got x.len() = {} and y.len() = {}", x.len(), y.len())
         }
 
         // Sum 
