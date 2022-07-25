@@ -89,9 +89,11 @@ impl KNN {
             thread_handles.push(thread::spawn(move || Self::calculate_distance_thread(c_to_be_eaten, temp)))
         }
 
-        // Join threads
+        // Append thread results to distances
         while thread_handles.len() > 0 {
+            // Remove join handle from vec into current thread
             let temp = thread_handles.remove(0);
+            // Join and unwrap result
             let mut temp_join = temp.join().unwrap();
             distances.append(&mut temp_join);
         }
