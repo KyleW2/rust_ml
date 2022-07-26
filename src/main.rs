@@ -34,4 +34,6 @@ fn main() {
     println!("Two threads classified as label {} in {} milliseconds", test.classify(&c, 2), now.elapsed().as_millis());
 
     let mut ptron = Perceptron::new(data, 0.05);
+    ptron.train(10);
+    println!("Perceptron classified as label {}", ptron.classify(&c, false))
 }

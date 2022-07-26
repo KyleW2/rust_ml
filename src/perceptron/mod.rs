@@ -67,7 +67,7 @@ impl Perceptron {
         Self::compute_weight(self, iterations)
     }
 
-    pub fn classify(&self, x: Vec<f64>, sigmoid: bool) -> f64 {
+    pub fn classify(&self, x: &Vec<f64>, sigmoid: bool) -> f64 {
         if sigmoid {
             return Self::sigmoid(Self::dot(self, &x));
         }
