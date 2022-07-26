@@ -4,6 +4,7 @@ use rand::Rng;
 use rust_ml::knn::KNN;
 use rust_ml::instance::Instance;
 use rust_ml::loader::{load_instances,write_instances};
+use rust_ml::perceptron::Perceptron;
 
 fn main() {
     let mut test = KNN::new(3);
@@ -20,7 +21,9 @@ fn main() {
 
     let c = vec![0.5, 0.5];
 
-    test.set_data(load_instances("test_random.inst".to_string()));
+    let loaded_data = load_instances("test_random.inst".to_string());
+
+    test.set_data(loaded_data);
 
     // Benchmark single thread
     let now = Instant::now();
@@ -29,4 +32,6 @@ fn main() {
     // Benchmark multi thread
     let now = Instant::now();
     println!("Two threads classified as label {} in {} milliseconds", test.classify(&c, 2), now.elapsed().as_millis());
+
+    let mut ptron = Perceptron::new(data, 0.05);
 }
