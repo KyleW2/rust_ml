@@ -1,4 +1,5 @@
 use super::instance::Instance;
+use rand::Rng;
 
 pub struct Perceptron {
     data: Vec<Instance>,
@@ -8,10 +9,11 @@ pub struct Perceptron {
 
 impl Perceptron {
     pub fn new(data: Vec<Instance>, learning_rate: f64) -> Self {
+        let mut rng = rand::thread_rng();
         let mut weights: Vec<f64> = Vec::new();
 
         for _ in 0..data[0].points.len() {
-            weights.push(0.0);
+            weights.push(rng.gen_range(-0.05..0.05));
         }
 
         return Self {
@@ -43,7 +45,7 @@ impl Perceptron {
         if x > 0.0 {
             return 1.0
         }
-        return -1.0
+        return 0.0
     }
 
     fn compute_weight(&mut self, iterations: usize) {

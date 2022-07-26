@@ -14,12 +14,12 @@ fn main() {
 
     /* Random data for run time bench */
     for _i in 0..100000 {
-        data.push(Instance::new(vec![rng.gen(), rng.gen()], rng.gen()))
+        data.push(Instance::new(vec![rng.gen(), rng.gen(), rng.gen(), rng.gen()], rng.gen_range(0..1)))
     }
     
     write_instances(&data, "test_random.inst".to_string());
 
-    let c = vec![0.5, 0.5];
+    let c = vec![rng.gen(), rng.gen(), rng.gen(), rng.gen()];
 
     let loaded_data = load_instances("test_random.inst".to_string());
 
@@ -27,13 +27,16 @@ fn main() {
 
     // Benchmark single thread
     let now = Instant::now();
-    println!("Single thread classified as label {} in {} milliseconds", test.classify(&c, 1), now.elapsed().as_millis());
+    println!("Single threaded KNN classified as label {} in {} milliseconds", test.classify(&c, 1), now.elapsed().as_millis());
 
     // Benchmark multi thread
     let now = Instant::now();
-    println!("Two threads classified as label {} in {} milliseconds", test.classify(&c, 2), now.elapsed().as_millis());
+    println!("Two thread KNN classified as label {} in {} milliseconds", test.classify(&c, 2), now.elapsed().as_millis());
 
     let mut ptron = Perceptron::new(data, 0.05);
-    ptron.train(10);
-    println!("Perceptron classified as label {}", ptron.classify(&c, false))
+    let its: usize = 10;
+    let now = Instant::now();
+    ptron.train(its);
+    println!("Perceptron did {} weight updates in {} milliseconds", its, now.elapsed().as_millis());
+    println!("Perceptron classified as label {}", ptron.classify(&c, false));
 }
